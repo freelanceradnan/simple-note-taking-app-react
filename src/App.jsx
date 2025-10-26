@@ -20,15 +20,35 @@ const submitHandler=(e)=>{
   if(noteTitle.trim()===""){
   return alert(`please enter a vaild input value`)
   }
-  const newNote={
-  id:Date.now()+"",
-  title:noteTitle,
-  }
-  setNotes([newNote,...notes])
+  editMode? updateHandler(): createHandler();
 }
 const removeHandler=(noteId)=>{
   const updateNotes=notes.filter((item)=>item.id!==noteId)
   setNotes(updateNotes)
+}
+const editHandler=(note)=>{
+ setEditMode(true)
+ setEditableNote(note)
+ setNoteTitle(note.title)
+}
+const createHandler=()=>{
+const newNote={
+  id:Date.now()+"",
+  title:noteTitle,
+  }
+  setNotes([newNote,...notes])
+  setNoteTitle("")
+}
+const updateHandler=()=>{
+  const updateNotes=notes.map(item=>{
+if(item.id==editableNote.id){
+  return {...item,title:noteTitle};
+}
+return item;
+  })
+  setNotes(updateNotes)
+  setEditMode(false)
+  setNoteTitle("")
 }
   return(
     
@@ -36,7 +56,7 @@ const removeHandler=(noteId)=>{
   <h2>All Notes</h2>
   <form onSubmit={submitHandler}>
     <input type="text" value={noteTitle} onChange={changeHandler}/>
-    <button type="submit">Add</button>
+    <button type="submit">{editMode ?"Update Note" : "add Note"}</button>
   </form>
   
   <ul className="notes">
@@ -44,7 +64,7 @@ const removeHandler=(noteId)=>{
       <>
       <li>
         <span>{note.title}</span>
-        <button>Edit</button>
+        <button onClick={()=>editHandler(note)}>Edit</button>
         <button onClick={()=>removeHandler(note.id)}>Delete</button>
         </li>
       </>

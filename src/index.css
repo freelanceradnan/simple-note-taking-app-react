@@ -1,0 +1,19 @@
+.Form-Body{
+  min-width:auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top:100px;
+}
+span{
+  
+  
+  padding:20px 0;
+}
+h2{
+  text-align: center;
+  font-size:2rem;
+  font-family: tahoma;
+  
+}
